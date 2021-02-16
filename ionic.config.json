@@ -1,0 +1,7 @@
+{
+  "name": "brewTimer",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
