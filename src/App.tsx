@@ -1,3 +1,6 @@
+import React from 'react';
+import {MbscCalendarEvent} from '@mobiscroll/react';
+
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
@@ -15,6 +18,11 @@ import { addCircle, calendar, home } from 'ionicons/icons';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
+import '@mobiscroll/react/dist/css/mobiscroll.min.css';
+
+
+
+
 /* Basic CSS for apps built with Ionic */
 import '@ionic/react/css/normalize.css';
 import '@ionic/react/css/structure.css';
@@ -31,10 +39,22 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import Home from './pages/home';
-import Calendar from './pages/calendar';
+import Calendar from './pages/calendarPage';
 import AddBrew from './pages/addBrew';
+import { useState } from 'react';
 
-const App: React.FC = () => (
+const App: React.FC = () => {
+  const [events, setEvents] = React.useState<MbscCalendarEvent[]>([{
+    start: new Date(2021, 2, 6, 8, 0),
+    end: new Date(2021, 2, 18, 17, 0),
+    title: 'Test Brew Stage One'
+  }, {
+    start: new Date(2020, 2, 18, 9, 0),
+    end: new Date(2020, 2, 20, 13, 0),
+    title: 'My Second Event'
+  }]);
+
+  return (
   <IonApp>
     <IonReactRouter>
       <IonTabs>
@@ -42,11 +62,11 @@ const App: React.FC = () => (
           <Route exact path="/home">
             <Home />
           </Route>
-          <Route exact path="/calendar">
-            <Calendar />
+          <Route exact path="/calendarPage">
+            <Calendar events={events} setEvents={setEvents} />
           </Route>
           <Route path="/addBrew">
-            <AddBrew />
+            <AddBrew events={events} setEvents={setEvents}/>
           </Route>
           <Route exact path="/">
             <Redirect to="/home" />
@@ -57,7 +77,7 @@ const App: React.FC = () => (
             <IonIcon icon={home} />
             <IonLabel>Home</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="calendar" href="/calendar">
+          <IonTabButton tab="calendar" href="/calendarPage">
             <IonIcon icon={calendar} />
             <IonLabel>Calendar</IonLabel>
           </IonTabButton>
@@ -69,6 +89,6 @@ const App: React.FC = () => (
       </IonTabs>
     </IonReactRouter>
   </IonApp>
-);
+)};
 
 export default App;
